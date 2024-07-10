@@ -10,10 +10,10 @@ if (!isset($_SESSION['user_id'])) {
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-<div class="container d-flex justify-content-center align-items-centerontainer"  >
+<div class="container d-flex justify-content-center align-items-center">
     <div class="justify-content-center" style="text-align:center">
         <div class="col-md-12">
-            <div class="card mt-12 " style="background-color: #11174F;">
+            <div class="card mt-12" style="background-color: #11174F;">
                 <div class="card-header">
                     <h2>Upload Konten</h2>
                 </div>
@@ -21,7 +21,8 @@ if (!isset($_SESSION['user_id'])) {
                     <form action="template/upload.php" method="post" enctype="multipart/form-data" onsubmit="return handleFormSubmit(event)">
                         <div class="form-group">
                             <label for="tweet-text">Tweet:</label>
-                            <textarea class="form-control" id="tweet-text" name="tweet-text" rows="4" placeholder="What's happening?" required></textarea>
+                            <textarea class="form-control" id="tweet-text" name="tweet-text" rows="4" placeholder="What's happening?" required oninput="checkForUsernameTag(this)"></textarea>
+                            <div id="username-list" class="username-list"></div>
                         </div>
                         <div class="form-group">
                             <label for="upload-images">Upload Images:</label>
@@ -143,6 +144,35 @@ function closeNotification() {
     notification.style.display = 'none';
     refreshContent(); // Merefresh konten setelah menutup notifikasi
 }
+
+function checkForUsernameTag(textarea) {
+    var content = textarea.value;
+    var matches = content.match(/@(\w+)/g);
+    var usernameList = document.getElementById('username-list');
+    usernameList.innerHTML = '';
+
+    if (matches) {
+        matches.forEach(function(match) {
+            var username = match.substring(1); // Remove "@" from username
+            var listItem = document.createElement('div');
+            listItem.textContent = username;
+            listItem.classList.add('username-item');
+            listItem.addEventListener('click', function() {
+                insertUsername(username);
+            });
+            usernameList.appendChild(listItem);
+        });
+    }
+}
+
+function insertUsername(username) {
+    var textarea = document.getElementById('tweet-text');
+    var content = textarea.value;
+    var cursorPosition = textarea.selectionStart;
+    var newContent = content.substring(0, cursorPosition) + username + content.substring(cursorPosition);
+    textarea.value = newContent;
+    document.getElementById('username-list').innerHTML = ''; // Hide username list after insertion
+}
 </script>
 
 <style>
@@ -219,5 +249,23 @@ function closeNotification() {
 
 .card-header {
     text-align: center;
+}
+
+.username-list {
+    position: absolute;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    max-height: 150px;
+    overflow-y: auto;
+    width: 100%;
+}
+
+.username-item {
+    padding: 5px;
+    cursor: pointer;
+}
+
+.username-item:hover {
+    background-color: #ddd;
 }
 </style>

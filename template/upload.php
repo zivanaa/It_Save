@@ -85,9 +85,30 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Simpan data ke database
     $images = implode(',', $image_names); // Gabungkan semua nama file gambar menjadi satu string
-    $query = "INSERT INTO posts (user_id, content, image, created_at) VALUES ('$user_id', '$tweet_text', '$images', NOW())";
+    $created_at = date('Y-m-d H:i:s');
+    $query = "INSERT INTO posts (user_id, content, image, created_at) VALUES ('$user_id', '$tweet_text', '$images', '$created_at')";
 
     if (mysqli_query($koneksi, $query)) {
+        $post_id = mysqli_insert_id($koneksi); // Dapatkan ID dari postingan yang baru saja dimasukkan
+
+        // Deteksi dan simpan tag username
+        if (preg_match_all('/@(\w+)/', $tweet_text, $matches)) {
+            $tagged_usernames = $matches[1];
+            foreach ($tagged_usernames as $username) {
+                // Dapatkan ID pengguna yang ditandai
+                $user_query = "SELECT id FROM users WHERE username = '$username'";
+                $user_result = mysqli_query($koneksi, $user_query);
+                if (mysqli_num_rows($user_result) > 0) {
+                    $user_data = mysqli_fetch_assoc($user_result);
+                    $tagged_user_id = $user_data['id'];
+
+                    // Simpan notifikasi tag
+                    $notif_query = "INSERT INTO notifications (user_id, type, post_id, created_at) VALUES ('$tagged_user_id', 'tag', '$post_id', '$created_at')";
+                    mysqli_query($koneksi, $notif_query);
+                }
+            }
+        }
+
         http_response_code(200);
         echo "Konten berhasil diunggah!";
     } else {

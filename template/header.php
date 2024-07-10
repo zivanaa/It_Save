@@ -517,6 +517,9 @@ mysqli_close($koneksi);
             <li class="nav-item">
               <a class="nav-link active" aria-current="page" style="color : #fff" href="?mod=tambah">Tambah</a>
             </li>
+             <li class="nav-item">
+                <a class="nav-link active" aria-current="page" style="color : #fff" href="?mod=notifikasi">Notifikasi</a>
+            </li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" style="color : #fff" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 Pengguna

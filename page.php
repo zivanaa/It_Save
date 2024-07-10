@@ -74,6 +74,9 @@ if ($_GET['mod']=='home'){
 }  else if ($_GET['mod']=='load_contact'){
     include "template/load_contact.php";
 
+}  else if ($_GET['mod']=='notifikasi'){
+    include "template/notifikasi.php";
+
 }
 
 ?>

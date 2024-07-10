@@ -98,7 +98,7 @@ if (!$result) {
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
-<div class="container-fluid" style="margin-top: 15px; display: flex; justify-content: center;">
+<div class="container-fluid" style="margin-top: 15px; display: flex; justify-content: center; background-color : ">
     <div class="row" style="width: 100%; max-width: 2500px;">
         <div class="col-md-6 feed" style="margin: 0 auto;">
              <!-- Search bar -->
@@ -207,6 +207,7 @@ if (!$result) {
 </div>
 
 <style>
+
 .horizontal-scroll {
     overflow-x: auto;
     white-space: nowrap;
