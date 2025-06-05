@@ -1,2 +1,1 @@
-# Tubes_DPW
-Tugas besar DPW membuat WEB It Save
+IT Safe adalah proyek web sosial media yang dengan fokus pada edukasi dan diskusi seputar hukum dan keamanan digital
